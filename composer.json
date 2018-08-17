@@ -1,0 +1,46 @@
+{
+    "name": "arondeparon/laravel-request-sanitizer",
+    "description": "An easy to use request sanitizer that allows you to sanitize your form data before validating it.",
+    "homepage": "https://github.com/arondeparon/laravel-request-sanitizer",
+    "keywords": [
+        "laravel",
+        "arondeparon",
+        "request",
+        "sanitizer",
+        "validation",
+        "form"
+    ],
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aron Rotteveel",
+            "email": "rotteveel.aron@gmail.com",
+            "homepage": "https://github.com/arondeparon",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "illuminate/contracts": "~5.5.0|~5.6.0",
+        "illuminate/support": "~5.5.0|~5.6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2|7.2",
+        "orchestra/testbench": "~3.5.0|~3.6.0",
+        "mockery/mockery": "0.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ArondeParon\\RequestSanitizer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ArondeParon\\RequestSanitizer\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "license": "MIT"
+}
