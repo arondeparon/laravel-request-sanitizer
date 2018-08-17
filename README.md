@@ -7,7 +7,7 @@ The `arondeparon/laravel-request-sanitizer` package provides a fluent interface 
 ## Why should I use this package?
 
 Often, validating your request is not enough. The request sanitizer allows you to easily 
-sanitize your form data before passing it to the validator. You can start using it in a matter
+manipulate your form data before passing it to the validator. You can start using it in a matter
 of minutes and it is fully compatible with Laravel's `FormRequest` object.
 
 ## How to use
