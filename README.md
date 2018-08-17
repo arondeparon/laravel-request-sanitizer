@@ -43,13 +43,13 @@ property of your form request.
 
 ## Predefined Sanitizers
 
-- [`RemoveNonNumeric`](./src/Sanitizers/RemoveNonNumeric.php) - removes any non numeric character
 - [`Trim`](./src/Sanitizers/Trim.php) - simple PHP `trim()` implementation
 - [`TrimDuplicateSpaces`](./src/Sanitizers/TrimDuplicateSpaces.php) replaces duplicate spaces with a single space.
+- [`RemoveNonNumeric`](./src/Sanitizers/RemoveNonNumeric.php) - removes any non numeric character
 - ...
 - Contributions are appreciated!
 
-## Writing your own Sanitizers
+## Writing your own Sanitizer
 
 Writing your own sanitizer can be done by implementing the `Sanitizer` interface, which requires only
 one method.
@@ -60,6 +60,8 @@ interface Sanitizer
      public function sanitize($input);
  }
 ```
+
+
 
 ## Testing
 
