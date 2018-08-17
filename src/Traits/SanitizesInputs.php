@@ -49,6 +49,10 @@ trait SanitizesInputs
      */
     public function addSanitizer(string $formKey, $sanitizer)
     {
+        if (!property_exists($this, 'sanitizers')) {
+            $this->sanitizers = [];
+        }
+
         if (!isset($this->sanitizers[$formKey])) {
             $this->sanitizers[$formKey] = [];
         }
@@ -80,6 +84,10 @@ trait SanitizesInputs
      */
     public function getSanitizers($formKey = null)
     {
+        if (!property_exists($this, 'sanitizers')) {
+            $this->sanitizers = [];
+        }
+
         if ($formKey !== null) {
             return $this->sanitizers[$formKey] ?? [];
         }
