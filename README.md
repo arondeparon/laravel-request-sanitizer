@@ -12,7 +12,7 @@ of minutes and it is fully compatible with Laravel's `FormRequest` object.
 
 ## How to use
 
-Syntax is similar to the way `rules` are added to a Form Request.
+Syntax is similar to the way `rules` are added to a [Form Request](https://laravel.com/docs/master/validation#form-request-validation).
 
 ```php
 class StoreCustomerInformationRequest extends FormRequest
