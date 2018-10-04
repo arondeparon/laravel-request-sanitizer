@@ -13,7 +13,6 @@ trait SanitizesInputs
      */
     protected function validationData()
     {
-        // Sanitize data before passing it to the validator.
         $this->sanitize();
 
         return $this->all();
@@ -33,7 +32,7 @@ trait SanitizesInputs
                 if (is_string($sanitizer)) {
                     $sanitizer = app()->make($sanitizer);
                 }
-                $input[$formKey] = $sanitizer->sanitize($input[$formKey] ?? null);
+                array_set($input, $formKey, $sanitizer->sanitize($this->input($formKey, null)));
             }
         }
 

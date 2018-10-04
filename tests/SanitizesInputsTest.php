@@ -50,4 +50,22 @@ class SanitizesInputsTest extends TestCase
 
         $request->sanitize();
     }
+
+    public function test_it_will_handle_dot_notation()
+    {
+        $request = new Request([
+            'foo' => [
+                'bar' => 'This is a regular string',
+            ],
+        ]);
+
+        $request->addSanitizers('foo.bar', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
+
+        /** @var \Mockery\MockInterface $sanitizer */
+        $sanitizer->shouldReceive('sanitize')
+            ->with('This is a regular string')
+            ->once();
+
+        $request->sanitize();
+    }
 }
