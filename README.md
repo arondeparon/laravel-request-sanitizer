@@ -46,7 +46,9 @@ property of your form request.
 - [`Trim`](./src/Sanitizers/Trim.php) - simple PHP `trim()` implementation
 - [`TrimDuplicateSpaces`](./src/Sanitizers/TrimDuplicateSpaces.php) replaces duplicate spaces with a single space.
 - [`RemoveNonNumeric`](./src/Sanitizers/RemoveNonNumeric.php) - removes any non numeric character
-- ...
+- [`Capitalize`](./src/Sanitizers/Capitalize.php) - capitalizes the first character of a string
+- [`Uppercase`](./src/Sanitizers/Uppercase.php) - converts a string to uppercase
+- [`Lowercase`](./src/Sanitizers/Lowercase.php) - converts a string to lowercasse
 - Contributions are appreciated!
 
 ## Writing your own Sanitizer
