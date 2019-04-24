@@ -39,7 +39,7 @@ class StoreCustomerInformationRequest extends FormRequest
 - Add the `SanitizesInputs` trait to your form request.
 - Write your own sanitizers or use one of the supplied sanitizers and add them to the `$sanitizers`
 property of your form request.
-- Your request data will not be sanitized before being validated.
+- Your request data will now be sanitized before being validated.
 
 ## Predefined Sanitizers
 
