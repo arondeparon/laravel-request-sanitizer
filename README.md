@@ -67,7 +67,7 @@ interface Sanitizer
 
 ## Testing
 
-`$ phpunit`
+`$ composer test`
 
 ## Credits
 
