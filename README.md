@@ -1,6 +1,7 @@
 # Laravel Request Sanitizer
 
 [![Build Status](https://travis-ci.org/ArondeParon/laravel-request-sanitizer.svg?branch=master)](https://travis-ci.org/ArondeParon/laravel-request-sanitizer)
+[![Total Downloads][ico-downloads]][link-downloads]
 
 The `arondeparon/laravel-request-sanitizer` package provides a fluent interface to sanitize form requests before validating them.
 
@@ -77,3 +78,6 @@ interface Sanitizer
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[link-downloads]: https://packagist.org/packages/arondeparon/laravel-request-sanitizer
+[ico-downloads]: https://img.shields.io/packagist/dt/arondeparon/laravel-request-sanitizer.svg?style=flat-square
