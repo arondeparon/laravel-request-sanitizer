@@ -2,8 +2,9 @@
 
 namespace ArondeParon\RequestSanitizer\Traits;
 
-use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 
 trait SanitizesInputs
 {
@@ -38,7 +39,7 @@ trait SanitizesInputs
                 } else {
                     throw new InvalidArgumentException('Could not resolve sanitizer from given properties');
                 }
-                array_set($input, $formKey, $sanitizer->sanitize($this->input($formKey, null)));
+                Arr::set($input, $formKey, $sanitizer->sanitize($this->input($formKey, null)));
             }
         }
 
