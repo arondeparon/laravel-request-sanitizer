@@ -2,6 +2,8 @@
 
 namespace ArondeParon\RequestSanitizer\Traits;
 
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 
 trait SanitizesInputs
@@ -18,21 +20,26 @@ trait SanitizesInputs
         return $this->all();
     }
 
+    /**
+     * @return mixed
+     */
     public function sanitize()
     {
         $input = $this->all();
 
-        if (!property_exists($this, 'sanitizers')) {
-            $this->sanitizers = [];
-        }
-
-        foreach ($this->sanitizers as $formKey => $sanitizers) {
+        foreach ($this->getSanitizers() as $formKey => $sanitizers) {
             $sanitizers = (array) $sanitizers;
-            foreach ($sanitizers as $sanitizer) {
-                if (is_string($sanitizer)) {
-                    $sanitizer = app()->make($sanitizer);
+            foreach ($sanitizers as $key => $value) {
+                if (is_string($key)) {
+                    $sanitizer = app()->make($key, $value);
+                } elseif (is_string($value)) {
+                    $sanitizer = app()->make($value);
+                } elseif ($value instanceof Sanitizer) {
+                    $sanitizer = $value;
+                } else {
+                    throw new InvalidArgumentException('Could not resolve sanitizer from given properties');
                 }
-                array_set($input, $formKey, $sanitizer->sanitize($this->input($formKey, null)));
+                Arr::set($input, $formKey, $sanitizer->sanitize($this->input($formKey, null)));
             }
         }
 
