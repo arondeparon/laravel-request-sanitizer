@@ -1,4 +1,4 @@
 build
 composer.lock
 vendor
-.idea
+.idea.phpunit.result.cache
