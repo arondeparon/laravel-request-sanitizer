@@ -13,7 +13,7 @@ trait SanitizesInputs
      *
      * @return array
      */
-    protected function validationData()
+    public function validationData()
     {
         $this->sanitize();
 
@@ -22,6 +22,7 @@ trait SanitizesInputs
 
     /**
      * @return mixed
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function sanitize()
     {
