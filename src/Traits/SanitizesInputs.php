@@ -62,11 +62,11 @@ trait SanitizesInputs {
         $defaults = $useDefaults ? config('sanitizer.defaults') : [];
 
         if ($formKey !== null) {
-            return array_merge($this->sanitizers[$formKey] ?? [], $defaults);
+            return array_merge($this->sanitizers[$formKey] ?? [], $defaults ?? []);
         }
 
         foreach ($this->sanitizers as $formKey => $sanitizers) {
-            $this->sanitizers[$formKey] = array_merge($this->sanitizers[$formKey], $defaults);
+            $this->sanitizers[$formKey] = array_merge($this->sanitizers[$formKey], $defaults ?? []);
         }
 
         return $this->sanitizers;
