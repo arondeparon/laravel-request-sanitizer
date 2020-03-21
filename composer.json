@@ -1,5 +1,5 @@
 {
-    "name": "gitmiro/laravel-request-sanitizer",
+    "name": "arondeparon/laravel-request-sanitizer",
     "description": "An easy to use request sanitizer that allows you to sanitize your form data before validating it.",
     "homepage": "https://github.com/arondeparon/laravel-request-sanitizer",
     "keywords": [
