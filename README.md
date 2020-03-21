@@ -50,7 +50,30 @@ property of your form request.
 - [`Capitalize`](./src/Sanitizers/Capitalize.php) - capitalizes the first character of a string
 - [`Uppercase`](./src/Sanitizers/Uppercase.php) - converts a string to uppercase
 - [`Lowercase`](./src/Sanitizers/Lowercase.php) - converts a string to lowercasse
+- [`Strip`](./src/Sanitizers/Strip.php) - strips html tags
 - Contributions are appreciated!
+
+## Default Sanitizers
+
+You can define default sanitizers which will be applied to each request input property (rules array).
+
+First publish the sanitizer config: <br>
+`php artisan vendor:publish --provider="ArondeParon\RequestSanitizer\RequestSanitizerServiceProvider" --tag="config"`
+
+Activate the sanitizer:
+```php
+return [
+     'defaults' => [
+         \ArondeParon\RequestSanitizer\Sanitizers\Strip::class
+     ]
+ ];
+```
+
+If you want to omit the default handling for a specific request, just set the following property on the request class:
+```php
+protected $useDefaults = false;
+```
+
 
 ## Writing your own Sanitizer
 
