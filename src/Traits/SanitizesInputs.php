@@ -2,12 +2,12 @@
 
 namespace ArondeParon\RequestSanitizer\Traits;
 
+use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 
-trait SanitizesInputs
-{
+trait SanitizesInputs {
+
     /**
      * Get data to be validated from the request.
      *
@@ -29,7 +29,7 @@ trait SanitizesInputs
         $input = $this->all();
 
         foreach ($this->getSanitizers() as $formKey => $sanitizers) {
-            $sanitizers = (array) $sanitizers;
+            $sanitizers = (array)$sanitizers;
             foreach ($sanitizers as $key => $value) {
                 if (is_string($key)) {
                     $sanitizer = app()->make($key, $value);
@@ -45,6 +45,47 @@ trait SanitizesInputs
         }
 
         return $this->replace($input);
+    }
+
+    /**
+     * @param null $formKey
+     * @return array
+     */
+    public function getSanitizers($formKey = null)
+    {
+        if (!property_exists($this, 'sanitizers')) {
+            $this->sanitizers = [];
+        }
+
+        $useDefaults = $this->useDefaults ?? true;
+
+        $defaults = $useDefaults ? config('sanitizer.defaults') : [];
+
+        if ($formKey !== null) {
+            return array_merge($this->sanitizers[$formKey] ?? [], $defaults);
+        }
+
+        foreach ($this->sanitizers as $formKey => $sanitizers) {
+            $this->sanitizers[$formKey] = array_merge($this->sanitizers[$formKey], $defaults);
+        }
+
+        return $this->sanitizers;
+    }
+
+    /**
+     * Add multiple sanitizers.
+     *
+     * @param $formKey
+     * @param array $sanitizers
+     * @return $this
+     */
+    public function addSanitizers($formKey, $sanitizers = [])
+    {
+        foreach ($sanitizers as $sanitizer) {
+            $this->addSanitizer($formKey, $sanitizer);
+        }
+
+        return $this;
     }
 
     /**
@@ -67,38 +108,5 @@ trait SanitizesInputs
         $this->sanitizers[$formKey][] = $sanitizer;
 
         return $this;
-    }
-
-    /**
-     * Add multiple sanitizers.
-     *
-     * @param $formKey
-     * @param array $sanitizers
-     * @return $this
-     */
-    public function addSanitizers($formKey, $sanitizers = [])
-    {
-        foreach ($sanitizers as $sanitizer) {
-            $this->addSanitizer($formKey, $sanitizer);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param null $formKey
-     * @return array
-     */
-    public function getSanitizers($formKey = null)
-    {
-        if (!property_exists($this, 'sanitizers')) {
-            $this->sanitizers = [];
-        }
-
-        if ($formKey !== null) {
-            return $this->sanitizers[$formKey] ?? [];
-        }
-
-        return $this->sanitizers;
     }
 }
