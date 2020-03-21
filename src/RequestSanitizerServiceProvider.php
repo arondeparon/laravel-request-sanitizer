@@ -15,7 +15,7 @@ class RequestSanitizerServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/config/sanitizer.php' => config_path('sanitizer.php'),
-        ]);
+        ], 'config');
 
     }
 }
