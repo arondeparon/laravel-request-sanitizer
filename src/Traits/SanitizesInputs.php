@@ -30,6 +30,7 @@ trait SanitizesInputs {
 
         foreach ($this->getSanitizers() as $formKey => $sanitizers) {
             $sanitizers = (array)$sanitizers;
+            $sanitized = null;
             foreach ($sanitizers as $key => $value) {
                 if (is_string($key)) {
                     $sanitizer = app()->make($key, $value);
@@ -40,7 +41,11 @@ trait SanitizesInputs {
                 } else {
                     throw new InvalidArgumentException('Could not resolve sanitizer from given properties');
                 }
-                Arr::set($input, $formKey, $sanitizer->sanitize($this->input($formKey, null)));
+                if (!$sanitized) {
+                    $sanitized = $this->input($formKey, null);
+                }
+                $sanitized = $sanitizer->sanitize($sanitized);
+                Arr::set($input, $formKey, $sanitized);
             }
         }
 
@@ -65,17 +70,31 @@ trait SanitizesInputs {
             return array_merge($this->sanitizers[$formKey] ?? [], $defaults ?? []);
         }
 
+        if ($defaults && method_exists($this, 'rules')) {
+            $this->addDefaults($defaults);
+        }
+
         foreach ($this->sanitizers as $formKey => $sanitizers) {
             $this->sanitizers[$formKey] = array_merge($this->sanitizers[$formKey], $defaults ?? []);
         }
 
-        if($defaults && method_exists($this, 'rules')){
-            foreach ($this->rules() as $ruleKey => $rules) {
+        return $this->sanitizers;
+    }
+
+    /**
+     * Adds default sanitizers to validation rules
+     * @param array $defaults
+     */
+    private function addDefaults(array $defaults)
+    {
+        foreach ($this->rules() as $ruleKey => $rules) {
+            if (array_key_exists($ruleKey, $this->sanitizers)) {
+                $this->sanitizers[$ruleKey] = array_unique(
+                    array_merge($this->sanitizers[$ruleKey], $defaults));
+            } else {
                 $this->sanitizers[$ruleKey] = $defaults;
             }
         }
-
-        return $this->sanitizers;
     }
 
     /**
