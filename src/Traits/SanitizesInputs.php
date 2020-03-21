@@ -69,6 +69,12 @@ trait SanitizesInputs {
             $this->sanitizers[$formKey] = array_merge($this->sanitizers[$formKey], $defaults ?? []);
         }
 
+        if($defaults && method_exists($this, 'rules')){
+            foreach ($this->rules() as $ruleKey => $rules) {
+                $this->sanitizers[$ruleKey] = $defaults;
+            }
+        }
+
         return $this->sanitizers;
     }
 

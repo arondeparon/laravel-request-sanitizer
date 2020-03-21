@@ -3,11 +3,14 @@
 namespace ArondeParon\RequestSanitizer\Tests;
 
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
+use ArondeParon\RequestSanitizer\Sanitizers\Strip;
 use ArondeParon\RequestSanitizer\Sanitizers\TrimDuplicateSpaces;
 use ArondeParon\RequestSanitizer\Tests\Objects\Request;
+use ArondeParon\RequestSanitizer\Tests\Objects\RequestWithRules;
+use Illuminate\Support\Facades\Config;
 
-class SanitizesInputsTest extends TestCase
-{
+class SanitizesInputsTest extends TestCase {
+
     public function test_it_can_add_a_sanitizer()
     {
         $request = new Request();
@@ -67,5 +70,31 @@ class SanitizesInputsTest extends TestCase
             ->once();
 
         $request->sanitize();
+    }
+
+    public function test_it_will_apply_the_default_sanitizers_to_existing_ones_()
+    {
+        $request = new Request([
+            'foo' => '<script>This is an illegal script tag</script>',
+        ]);
+
+        $request->addSanitizers('foo', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
+
+        Config::set('sanitizer.defaults', [Strip::class]);
+
+        $this->assertEquals(2, count($request->getSanitizers()['foo']));
+    }
+
+    public function test_it_will_apply_default_sanitizers_to_defined_rules()
+    {
+        $request = new RequestWithRules([
+            'foo' => '<script>This is an illegal script tag</script>',
+        ]);
+
+        $request->addSanitizers('foo', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
+
+        Config::set('sanitizer.defaults', [Strip::class]);
+
+        $this->assertEquals(3, count($request->getSanitizers()));
     }
 }
