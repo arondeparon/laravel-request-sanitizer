@@ -5,6 +5,7 @@ namespace ArondeParon\RequestSanitizer\Tests\Sanitizers;
 use ArondeParon\RequestSanitizer\Sanitizers\Capitalize;
 use ArondeParon\RequestSanitizer\Sanitizers\Lowercase;
 use ArondeParon\RequestSanitizer\Sanitizers\RemoveNonNumeric;
+use ArondeParon\RequestSanitizer\Sanitizers\Strip;
 use ArondeParon\RequestSanitizer\Sanitizers\Trim;
 use ArondeParon\RequestSanitizer\Sanitizers\TrimDuplicateSpaces;
 use ArondeParon\RequestSanitizer\Sanitizers\Uppercase;
@@ -52,5 +53,12 @@ class SanizerTest extends TestCase
         $sanitizer = new RemoveNonNumeric();
         $output = $sanitizer->sanitize('test1234-134AC~');
         $this->assertEquals('1234134', $output);
+    }
+
+    public function test_strip_illegal_tags_sanitizer()
+    {
+        $sanitizer = new Strip();
+        $output = $sanitizer->sanitize('<script>This is an illegal script tag</script>');
+        $this->assertEquals('This is an illegal script tag', $output);
     }
 }

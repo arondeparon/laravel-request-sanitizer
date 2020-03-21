@@ -75,7 +75,7 @@ class SanitizesInputsTest extends TestCase {
     public function test_it_will_apply_the_default_sanitizers_to_existing_ones_()
     {
         $request = new Request([
-            'foo' => '<script>This is an illegal script tag</script>',
+            'foo' => 'Random Text',
         ]);
 
         $request->addSanitizers('foo', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
@@ -88,7 +88,7 @@ class SanitizesInputsTest extends TestCase {
     public function test_it_will_apply_default_sanitizers_to_defined_rules()
     {
         $request = new RequestWithRules([
-            'foo' => '<script>This is an illegal script tag</script>',
+            'foo' => 'Random Text',
         ]);
 
         $request->addSanitizers('foo', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
