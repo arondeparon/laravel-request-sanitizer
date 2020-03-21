@@ -41,5 +41,12 @@
     "scripts": {
         "test": "vendor/bin/phpunit"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ArondeParon\\RequestSanitizer\\RequestSanitizerServiceProvider"
+            ]
+        }
+    }
 }
