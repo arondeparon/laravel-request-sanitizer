@@ -3,6 +3,7 @@
 namespace ArondeParon\RequestSanitizer\Tests\Sanitizers;
 
 use ArondeParon\RequestSanitizer\Sanitizers\Capitalize;
+use ArondeParon\RequestSanitizer\Sanitizers\FilterVars;
 use ArondeParon\RequestSanitizer\Sanitizers\Lowercase;
 use ArondeParon\RequestSanitizer\Sanitizers\RemoveNonNumeric;
 use ArondeParon\RequestSanitizer\Sanitizers\Trim;
@@ -52,5 +53,15 @@ class SanizerTest extends TestCase
         $sanitizer = new RemoveNonNumeric();
         $output = $sanitizer->sanitize('test1234-134AC~');
         $this->assertEquals('1234134', $output);
+    }
+
+    public function test_strip_tags_with_filter_vars()
+    {
+        $opts = [
+            'filter' => FILTER_SANITIZE_STRING,
+        ];
+        $sanitizer = new FilterVars($opts);
+        $output = $sanitizer->sanitize("<script>malicious code</script>");
+        $this->assertEquals('malicious code', $output);
     }
 }

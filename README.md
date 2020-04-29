@@ -50,7 +50,28 @@ property of your form request.
 - [`Capitalize`](./src/Sanitizers/Capitalize.php) - capitalizes the first character of a string
 - [`Uppercase`](./src/Sanitizers/Uppercase.php) - converts a string to uppercase
 - [`Lowercase`](./src/Sanitizers/Lowercase.php) - converts a string to lowercasse
+- [`FilterVars`](./src/Sanitizers/FilterVars.php) - simple php filter_vars sanitizer
 - Contributions are appreciated!
+
+### FilterVars usage
+The FilterVars sanitizer acts as a wrapper of the default php filter_vars function. 
+In order to use it in your request class you must specify at least the `filter` option. 
+`options` are optional. Both parameters can be either an `array` or `string` type:
+```php
+ {
+    protected $sanitizers = {
+        'last_name' => [
+            FilterVars::class => [
+                'opts' => [
+                    'filter' => FILTER_SANITIZE_STRING,
+                    'options' => [FILTER_FLAG_STRIP_BACKTICK]
+                ]
+            ]
+        ]
+    }
+ }
+```
+For more information on filter_vars please refer to https://www.php.net/manual/en/function.filter-var.php.
 
 ## Writing your own Sanitizer
 
