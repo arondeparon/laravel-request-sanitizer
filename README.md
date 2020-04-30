@@ -61,8 +61,8 @@ property of your form request.
 - [`RemoveNonNumeric`](./src/Sanitizers/RemoveNonNumeric.php) - removes any non numeric character
 - [`Capitalize`](./src/Sanitizers/Capitalize.php) - capitalizes the first character of a string
 - [`Uppercase`](./src/Sanitizers/Uppercase.php) - converts a string to uppercase
-- [`Lowercase`](./src/Sanitizers/Lowercase.php) - converts a string to lowercasse
-- [`FilterVars`](./src/Sanitizers/FilterVars.php) - simple php filter_vars sanitizer
+- [`Lowercase`](./src/Sanitizers/Lowercase.php) - converts a string to lowercase
+- [`FilterVars`](./src/Sanitizers/FilterVars.php) - simple PHP `filter_var` sanitizer
 - Contributions are appreciated!
 
 ### FilterVars usage
