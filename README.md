@@ -11,6 +11,18 @@ Often, validating your request is not enough. The request sanitizer allows you t
 manipulate your form data before passing it to the validator. You can start using it in a matter
 of minutes and it is fully compatible with Laravel's `FormRequest` object.
 
+## Table of Contents
+
+  * [How to use](#how-to-use)
+  * [Installing](#installing)
+  * [Usage](#usage)
+  * [Predefined Sanitizers](#predefined-sanitizers)
+    + [FilterVars usage](#filtervars-usage)
+  * [Writing your own Sanitizer](#writing-your-own-sanitizer)
+  * [Testing](#testing)
+  * [Credits](#credits)
+  * [License](#license)
+
 ## How to use
 
 Syntax is similar to the way `rules` are added to a [Form Request](https://laravel.com/docs/master/validation#form-request-validation).
@@ -54,19 +66,19 @@ property of your form request.
 - Contributions are appreciated!
 
 ### FilterVars usage
-The FilterVars sanitizer acts as a wrapper of the default php filter_vars function. 
-In order to use it in your request class you must specify at least the `filter` option. 
-`options` are optional. Both parameters can be either an `array` or `string` type:
+The FilterVars sanitizer acts as a wrapper of the default PHP `filter_var` function. 
+It accepts the same (optional) parameters as the original function. 
+Both parameters can be either an `array` or `string` type:
 ```php
  {
-    protected $sanitizers = {
+    protected $sanitizers = [
         'last_name' => [
             FilterVars::class => [
                 'filter' => FILTER_SANITIZE_STRING,
                 'options' => FILTER_FLAG_STRIP_BACKTICK
             ]
         ]
-    }
+    ];
  }
 ```
 For more information on filter_vars please refer to https://www.php.net/manual/en/function.filter-var.php.
