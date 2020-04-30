@@ -10,14 +10,15 @@ class FilterVars implements Sanitizer
     private $filter;
     private $options;
 
+
     /**
-     * FilterVars constructor.
-     * @param  array  $opts
+     * @param  int  $filter
+     * @param  null  $options
      */
-    function __construct(array $opts)
+    function __construct(int $filter = FILTER_DEFAULT, $options = null)
     {
-        $this->filter = $opts['filter'] ?? null;
-        $this->options = $opts['options'] ?? null;
+        $this->filter = $filter;
+        $this->options = $options;
     }
 
     /**
