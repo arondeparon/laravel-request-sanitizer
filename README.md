@@ -1,6 +1,6 @@
 # Laravel Request Sanitizer
 
-[![Build Status](https://travis-ci.org/ArondeParon/laravel-request-sanitizer.svg?branch=master)](https://travis-ci.org/ArondeParon/laravel-request-sanitizer)
+![Run Tests](https://github.com/ArondeParon/laravel-request-sanitizer/workflows/Run%20Tests/badge.svg?branch=master)
 [![Total Downloads][ico-downloads]][link-downloads]
 
 The `arondeparon/laravel-request-sanitizer` package provides a fluent interface to sanitize form requests before validating them.
