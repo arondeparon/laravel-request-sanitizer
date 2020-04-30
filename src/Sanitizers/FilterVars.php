@@ -6,12 +6,10 @@ use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 
 class FilterVars implements Sanitizer
 {
-
     private $filter;
     private $options;
 
-
-    function __construct(int $filter = FILTER_DEFAULT, $options = null)
+    public function __construct(int $filter = FILTER_DEFAULT, $options = null)
     {
         $this->filter = $filter;
         $this->options = $options;
