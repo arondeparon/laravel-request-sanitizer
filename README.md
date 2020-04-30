@@ -62,10 +62,8 @@ In order to use it in your request class you must specify at least the `filter` 
     protected $sanitizers = {
         'last_name' => [
             FilterVars::class => [
-                'opts' => [
-                    'filter' => FILTER_SANITIZE_STRING,
-                    'options' => [FILTER_FLAG_STRIP_BACKTICK]
-                ]
+                'filter' => FILTER_SANITIZE_STRING,
+                'options' => FILTER_FLAG_STRIP_BACKTICK
             ]
         ]
     }
