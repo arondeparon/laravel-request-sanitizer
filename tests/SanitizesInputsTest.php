@@ -68,4 +68,17 @@ class SanitizesInputsTest extends TestCase
 
         $request->sanitize();
     }
+
+    public function test_it_will_not_sanitize_properties_that_are_not_present()
+    {
+        $request = new Request();
+
+        $request->addSanitizers('foo', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
+
+        $sanitizer->shouldNotReceive('sanitize');
+
+        $request->sanitize();
+
+        $this->assertNull($request->input('foo'));
+    }
 }
