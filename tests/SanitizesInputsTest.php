@@ -5,31 +5,36 @@ namespace ArondeParon\RequestSanitizer\Tests;
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 use ArondeParon\RequestSanitizer\Sanitizers\TrimDuplicateSpaces;
 use ArondeParon\RequestSanitizer\Tests\Objects\Request;
+use Illuminate\Validation\ValidationException;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class SanitizesInputsTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     public function test_it_can_add_a_sanitizer()
     {
-        $request = new Request();
+        $request = $this->createRequest();
         $request->addSanitizer('foo', new TrimDuplicateSpaces());
-        $this->assertEquals(1, count($request->getSanitizers()));
+
+        self::assertCount(1, $request->getSanitizers());
     }
 
     public function test_it_can_retrieve_sanitizers_for_a_given_input()
     {
-        $request = new Request();
+        $request = $this->createRequest();
         $request->addSanitizer('foo', new TrimDuplicateSpaces());
         $sanitizers = $request->getSanitizers('foo');
 
-        $this->assertInstanceOf(TrimDuplicateSpaces::class, $sanitizers[0]);
+        self::assertInstanceOf(TrimDuplicateSpaces::class, $sanitizers[0]);
     }
 
     public function test_it_will_return_an_empty_array_if_no_sanitizer_exists()
     {
-        $request = new Request();
+        $request = $this->createRequest();
         $sanitizers = $request->getSanitizers('foo');
 
-        $this->assertEmpty($sanitizers);
+        self::assertEmpty($sanitizers);
     }
 
     public function test_it_will_call_each_sanitizer_if_the_key_exists()
@@ -40,7 +45,7 @@ class SanitizesInputsTest extends TestCase
             \Mockery::mock(Sanitizer::class),
         ];
 
-        $request = new Request(['foo' => 'This is a regular string']);
+        $request = $this->createRequest(['foo' => 'This is a regular string']);
         $request->addSanitizers('foo', $sanitizers);
 
         /** @var \Mockery\MockInterface $sanitizer */
@@ -48,12 +53,12 @@ class SanitizesInputsTest extends TestCase
             $sanitizer->shouldReceive('sanitize')->once();
         }
 
-        $request->sanitize();
+        $request->validateResolved();
     }
 
     public function test_it_will_handle_dot_notation()
     {
-        $request = new Request([
+        $request = $this->createRequest([
             'foo' => [
                 'bar' => 'This is a regular string',
             ],
@@ -66,6 +71,34 @@ class SanitizesInputsTest extends TestCase
             ->with('This is a regular string')
             ->once();
 
-        $request->sanitize();
+        $request->validateResolved();
+    }
+
+    public function test_it_should_sanitize_even_if_the_request_is_invalid()
+    {
+        $request = $this->createRequest([
+            'bar' => 'This is a regular string',
+        ], RequiredFieldsRequest::class);
+
+        $request->addSanitizers('bar', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
+
+        /** @var \Mockery\MockInterface $sanitizer */
+        $sanitizer->shouldReceive('sanitize')
+            ->with('This is a regular string')
+            ->once();
+
+        $this->expectException(ValidationException::class);
+
+        $request->validateResolved();
+    }
+}
+
+class RequiredFieldsRequest extends Request
+{
+    public function rules(): array
+    {
+        return [
+            'name' => 'required'
+        ];
     }
 }
