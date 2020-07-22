@@ -9,15 +9,13 @@ use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 trait SanitizesInputs
 {
     /**
-     * Get data to be validated from the request.
+     * Prepare the data for validation.
      *
-     * @return array
+     * @return void
      */
-    public function validationData()
+    protected function prepareForValidation()
     {
         $this->sanitize();
-
-        return $this->all();
     }
 
     /**
