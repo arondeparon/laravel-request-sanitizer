@@ -12,6 +12,6 @@ class Capitalize implements Sanitizer
      */
     public function sanitize($input)
     {
-        return ucfirst($input);
+        return ucfirst(strtolower($input));
     }
 }
