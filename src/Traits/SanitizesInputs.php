@@ -51,6 +51,12 @@ trait SanitizesInputs
         if ($this->hasWildcardSanitizer()) {
             $sanitizers = (array) $this->getSanitizers()['*'];
             foreach ($input as $formKey => $inputValue) {
+                if (str_contains($formKey, 'url')) {
+                    // Urls are case sensitive
+                    // Urls should be process independently
+                    continue;
+                }
+
                 foreach ($sanitizers as $key => $value) {
                     $this->doSanitize($input, $key, $value, $formKey);
                 }
