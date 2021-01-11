@@ -3,6 +3,8 @@
 namespace ArondeParon\RequestSanitizer\Tests;
 
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
+use ArondeParon\RequestSanitizer\Sanitizers\Capitalize;
+use ArondeParon\RequestSanitizer\Sanitizers\Lowercase;
 use ArondeParon\RequestSanitizer\Sanitizers\TrimDuplicateSpaces;
 use ArondeParon\RequestSanitizer\Tests\Objects\Request;
 use Illuminate\Validation\ValidationException;
@@ -54,6 +56,23 @@ class SanitizesInputsTest extends TestCase
         }
 
         $request->validateResolved();
+    }
+
+    public function test_it_will_chain_the_result_of_each_sanitizer()
+    {
+        $sanitizers = [
+            Lowercase::class,
+            Capitalize::class,
+        ];
+
+        $request = $this->createRequest([
+            'foo' => 'this is a lower case string with a CAPITAL word'
+        ]);
+        $request->addSanitizers('foo', $sanitizers);
+
+        $request->validateResolved();
+
+        $this->assertEquals('This is a lower case string with a capital word', $request->input('foo'));
     }
 
     public function test_it_will_handle_dot_notation()
