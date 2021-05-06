@@ -7,7 +7,7 @@ use ArondeParon\RequestSanitizer\Tests\TestCase;
 
 class TrimTest extends TestCase
 {
-    public function test_trim_sanitizer()
+    public function test_xss_sanitizer()
     {
         $sanitizer = new XssSanitize();
         $output = $sanitizer->sanitize("<?php echo 'test'; ?> <script> alert('test') </script>");
