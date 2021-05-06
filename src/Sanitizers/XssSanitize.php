@@ -12,6 +12,6 @@ class XssSanitize implements Sanitizer
      */
     public function sanitize($input)
     {
-        return strip_tags(htmlspecialchars($input));
+        return htmlspecialchars($input);
     }
 }
