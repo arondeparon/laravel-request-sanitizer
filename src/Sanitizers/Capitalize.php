@@ -3,6 +3,7 @@
 namespace ArondeParon\RequestSanitizer\Sanitizers;
 
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
+use Illuminate\Support\Str;
 
 class Capitalize implements Sanitizer
 {
@@ -12,6 +13,6 @@ class Capitalize implements Sanitizer
      */
     public function sanitize($input)
     {
-        return ucfirst($input);
+        return Str::ucfirst($input);
     }
 }
