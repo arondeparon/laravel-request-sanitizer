@@ -3,6 +3,7 @@
 namespace ArondeParon\RequestSanitizer\Sanitizers;
 
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
+use Illuminate\Support\Str;
 
 class Lowercase implements Sanitizer
 {
@@ -12,6 +13,6 @@ class Lowercase implements Sanitizer
      */
     public function sanitize($input)
     {
-        return strtolower($input);
+        return Str::lower($input);
     }
 }
