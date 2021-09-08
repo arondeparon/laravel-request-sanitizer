@@ -12,6 +12,6 @@ class Uppercase implements Sanitizer
      */
     public function sanitize($input)
     {
-        return strtoupper($input);
+        return mb_strtoupper($input, 'UTF-8');
     }
 }
