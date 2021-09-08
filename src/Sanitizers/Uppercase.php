@@ -13,6 +13,6 @@ class Uppercase implements Sanitizer
      */
     public function sanitize($input)
     {
-        return Str::upper($input, 'UTF-8');
+        return Str::upper($input);
     }
 }
