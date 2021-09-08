@@ -12,6 +12,6 @@ class Lowercase implements Sanitizer
      */
     public function sanitize($input)
     {
-        return mb_strtolower($value, 'UTF-8');
+        return mb_strtolower($input, 'UTF-8');
     }
 }
