@@ -3,6 +3,7 @@
 namespace ArondeParon\RequestSanitizer\Sanitizers;
 
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
+use Illuminate\Support\Str;
 
 class Uppercase implements Sanitizer
 {
@@ -12,6 +13,6 @@ class Uppercase implements Sanitizer
      */
     public function sanitize($input)
     {
-        return mb_strtoupper($input, 'UTF-8');
+        return Str::upper($input, 'UTF-8');
     }
 }
