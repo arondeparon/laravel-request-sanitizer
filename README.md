@@ -63,6 +63,7 @@ property of your form request.
 - [`Uppercase`](./src/Sanitizers/Uppercase.php) - converts a string to uppercase
 - [`Lowercase`](./src/Sanitizers/Lowercase.php) - converts a string to lowercase
 - [`FilterVars`](./src/Sanitizers/FilterVars.php) - simple PHP `filter_var` sanitizer
+- [`CarbonDate`](./src/Sanitizers/CarbonDate.php) - cast a string to a Carbon object
 - Contributions are appreciated!
 
 ### FilterVars usage
