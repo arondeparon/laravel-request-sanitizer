@@ -2,11 +2,11 @@
 
 namespace ArondeParon\RequestSanitizer\Tests\Sanitizers;
 
-use ArondeParon\RequestSanitizer\Sanitizers\CarbonDateSanitizer;
+use ArondeParon\RequestSanitizer\Sanitizers\CarbonDate;
 use ArondeParon\RequestSanitizer\Tests\TestCase;
 use Carbon\Carbon;
 
-class CarbonDateSanitizerTest extends TestCase
+class CarbonDateTest extends TestCase
 {
     public function test_it_will_cast_a_valid_date_to_carbon()
     {
@@ -16,7 +16,7 @@ class CarbonDateSanitizerTest extends TestCase
             '2021-12-15 12:00:00.000000',
         ];
 
-        $sanitizer = new CarbonDateSanitizer();
+        $sanitizer = new CarbonDate();
 
         foreach ($dateFormats as $dateFormat) {
             $this->assertInstanceOf(Carbon::class, $sanitizer->sanitize($dateFormat));
@@ -31,7 +31,7 @@ class CarbonDateSanitizerTest extends TestCase
             '2021-13-30'
         ];
 
-        $sanitizer = new CarbonDateSanitizer();
+        $sanitizer = new CarbonDate();
 
         foreach ($invalidDateFormats as $dateFormat) {
             $this->assertNull($sanitizer->sanitize($dateFormat), "It will not parse {$dateFormat}");

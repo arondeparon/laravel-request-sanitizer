@@ -5,7 +5,7 @@ namespace ArondeParon\RequestSanitizer\Sanitizers;
 use ArondeParon\RequestSanitizer\Contracts\Sanitizer;
 use Carbon\Carbon;
 
-class CarbonDateSanitizer implements Sanitizer
+class CarbonDate implements Sanitizer
 {
     public function sanitize($input)
     {
