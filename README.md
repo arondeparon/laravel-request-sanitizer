@@ -15,6 +15,8 @@ of minutes and it is fully compatible with Laravel's `FormRequest` object.
   * [How to use](#how-to-use)
   * [Installing](#installing)
   * [Usage](#usage)
+    + [Basic Usage](#basic-usage)
+    + [Using Wildcards](#using-wildcards)
   * [Predefined Sanitizers](#predefined-sanitizers)
     + [FilterVars usage](#filtervars-usage)
   * [Writing your own Sanitizer](#writing-your-own-sanitizer)
@@ -48,10 +50,79 @@ class StoreCustomerInformationRequest extends FormRequest
 
 ## Usage
 
+### Basic Usage
+
 - Add the `SanitizesInputs` trait to your form request.
 - Write your own sanitizers or use one of the supplied sanitizers and add them to the `$sanitizers`
 property of your form request.
 - Your request data will now be sanitized before being validated.
+
+### Using Wildcards
+
+The sanitizer supports wildcard patterns in your form keys, allowing you to apply sanitizers to multiple fields that match a pattern. This is particularly useful when dealing with arrays or nested data structures.
+
+```php
+class StoreUsersRequest extends FormRequest
+{
+    use SanitizesInputs;
+    
+    protected $sanitizers = [
+        // Apply to all email fields in the users array
+        'users.*.email' => [
+            Lowercase::class,
+            TrimDuplicateSpaces::class
+        ],
+        
+        // Apply to all name fields in the users array
+        'users.*.name' => [
+            Capitalize::class
+        ],
+        
+        // Multiple wildcards for deeply nested structures
+        'departments.*.employees.*.email' => [
+            Lowercase::class
+        ]
+    ];
+}
+```
+
+Example input:
+```php
+$request = [
+    'users' => [
+        ['email' => 'JOHN@EXAMPLE.COM', 'name' => 'john doe'],
+        ['email' => 'JANE@EXAMPLE.COM', 'name' => 'jane smith']
+    ],
+    'departments' => [
+        'sales' => [
+            'employees' => [
+                ['email' => 'SALES@EXAMPLE.COM'],
+                ['email' => 'SUPPORT@EXAMPLE.COM']
+            ]
+        ]
+    ]
+];
+```
+
+After sanitization:
+```php
+$sanitized = [
+    'users' => [
+        ['email' => 'john@example.com', 'name' => 'John Doe'],
+        ['email' => 'jane@example.com', 'name' => 'Jane Smith']
+    ],
+    'departments' => [
+        'sales' => [
+            'employees' => [
+                ['email' => 'sales@example.com'],
+                ['email' => 'support@example.com']
+            ]
+        ]
+    ]
+];
+```
+
+The wildcard pattern (`*`) will match any single segment in the dot notation path. You can use multiple wildcards to match nested structures at any depth.
 
 ## Predefined Sanitizers
 
@@ -94,8 +165,6 @@ interface Sanitizer
      public function sanitize($input);
  }
 ```
-
-
 
 ## Testing
 

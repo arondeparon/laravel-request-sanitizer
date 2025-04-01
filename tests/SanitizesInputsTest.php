@@ -110,6 +110,66 @@ class SanitizesInputsTest extends TestCase
 
         $request->validateResolved();
     }
+
+    public function test_it_will_handle_wildcards_in_arrays()
+    {
+        $request = $this->createRequest([
+            'users' => [
+                ['name' => 'JOHN DOE'],
+                ['name' => 'JANE DOE'],
+            ]
+        ]);
+
+        $request->addSanitizers('users.*.name', [new Lowercase()]);
+        $request->validateResolved();
+
+        $this->assertEquals('john doe', $request->input('users.0.name'));
+        $this->assertEquals('jane doe', $request->input('users.1.name'));
+    }
+
+    public function test_it_will_handle_multiple_wildcards()
+    {
+        $request = $this->createRequest([
+            'departments' => [
+                'sales' => [
+                    'employees' => [
+                        ['name' => 'JOHN DOE'],
+                        ['name' => 'JANE DOE'],
+                    ]
+                ],
+                'marketing' => [
+                    'employees' => [
+                        ['name' => 'BOB SMITH'],
+                        ['name' => 'ALICE JONES'],
+                    ]
+                ]
+            ]
+        ]);
+
+        $request->addSanitizers('departments.*.employees.*.name', [new Lowercase()]);
+        $request->validateResolved();
+
+        $this->assertEquals('john doe', $request->input('departments.sales.employees.0.name'));
+        $this->assertEquals('jane doe', $request->input('departments.sales.employees.1.name'));
+        $this->assertEquals('bob smith', $request->input('departments.marketing.employees.0.name'));
+        $this->assertEquals('alice jones', $request->input('departments.marketing.employees.1.name'));
+    }
+
+    public function test_it_will_not_match_invalid_wildcard_patterns()
+    {
+        $request = $this->createRequest([
+            'users' => [
+                ['name' => 'JOHN DOE'],
+                ['name' => 'JANE DOE'],
+            ]
+        ]);
+
+        $request->addSanitizers('invalid.*.pattern', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
+        
+        $sanitizer->shouldNotReceive('sanitize');
+        
+        $request->validateResolved();
+    }
 }
 
 class RequiredFieldsRequest extends Request
