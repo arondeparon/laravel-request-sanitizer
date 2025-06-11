@@ -165,10 +165,20 @@ class SanitizesInputsTest extends TestCase
         ]);
 
         $request->addSanitizers('invalid.*.pattern', [$sanitizer = \Mockery::mock(Sanitizer::class)]);
-        
+
         $sanitizer->shouldNotReceive('sanitize');
-        
+
         $request->validateResolved();
+    }
+
+    public function test_it_will_sanitize_zero_values()
+    {
+        $request = $this->createRequest(['count' => 0]);
+        $request->addSanitizers('count', [new Capitalize()]);
+
+        $request->validateResolved();
+
+        $this->assertEquals('0', $request->input('count'));
     }
 }
 

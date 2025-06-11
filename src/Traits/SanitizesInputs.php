@@ -33,7 +33,7 @@ trait SanitizesInputs
                 $matchingKeys = $this->findMatchingKeys($input, $pattern);
                 
                 foreach ($matchingKeys as $matchingKey) {
-                    if (!data_get($input, $matchingKey)) {
+                    if (!Arr::has($input, $matchingKey)) {
                         continue;
                     }
                     $this->applySanitizers($input, $matchingKey, $sanitizers);
@@ -41,7 +41,7 @@ trait SanitizesInputs
                 continue;
             }
 
-            if (!data_get($input, $formKey)) {
+            if (!Arr::has($input, $formKey)) {
                 // If the request does not have a property for this key, there is no need to sanitize anything.
                 continue;
             }
